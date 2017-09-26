@@ -9,20 +9,25 @@ class ocf_dhcp {
       require  => [Package['isc-dhcp-server'], Exec['gen-desktop-leases']],
       notify   => Service['isc-dhcp-server'];
 
+    '/etc/dhcp/dhcpd6.conf':
+      source   => 'puppet:///modules/ocf_dhcp/dhcpd6.conf',
+      require  => [Package['isc-dhcp-server'], Exec['gen-desktop-leases']],
+      notify   => Service['isc-dhcp-server'];
+
     '/usr/local/sbin/gen-desktop-leases':
       source => 'puppet:///modules/ocf_dhcp/gen-desktop-leases',
       mode   => '0755';
   }
 
   exec { 'gen-desktop-leases':
-    command    => '/usr/local/sbin/gen-desktop-leases > /etc/dhcp/desktop-leases.conf',
+    command    => '/usr/local/sbin/gen-desktop-leases',
     creates    => '/etc/dhcp/desktop-leases.conf',
     require    => [File['/usr/local/sbin/gen-desktop-leases'], Package['python3-ocflib']],
     notify     => Service['isc-dhcp-server'];
   }
 
   service { 'isc-dhcp-server':
-    subscribe => File['/etc/dhcp/dhcpd.conf']
+    subscribe => [File['/etc/dhcp/dhcpd.conf'], File['/etc/dhcp/dhcpd6.conf']],
   }
 
   # send magic packet to wakeup desktops at lab opening time
