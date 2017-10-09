@@ -1,3 +1,3 @@
 classes:
-    - ocf_ocfweb::dev_config
+    - ocf::dev_config::ocfweb
 owner: tanx

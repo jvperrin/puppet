@@ -7,7 +7,7 @@ class ocf_jenkins {
     autoclean => false,
   }
 
-  class { 'ocf_ocfweb::dev_config':
+  class { 'ocf::dev_config::ocfweb':
     group   => 'jenkins-slave',
     require => User['jenkins-slave'],
   }

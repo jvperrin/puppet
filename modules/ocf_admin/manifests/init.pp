@@ -3,7 +3,7 @@ class ocf_admin {
   include ocf::hostkeys
   include ocf::packages::cups
   include ocf::tmpfs
-  include ocf_ocfweb::dev_config
+  include ocf::dev_config::ocfweb
 
   include ocf_admin::apt_dater
   include ocf_admin::create
