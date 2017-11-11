@@ -1,0 +1,29 @@
+[encryption]
+key=
+
+[redis]
+uri=
+
+[mysql]
+uri=
+password=<%= @mysql_password %>
+
+[kerberos]
+keytab=
+principal=
+
+[celery]
+broker=redis://:<%= @redis_password -%>@admin.ocf.berkeley.edu:6378
+backend=redis://:<%= @redis_password -%>@admin.ocf.berkeley.edu:6378
+
+[rt]
+password=<%= @rt_password %>
+
+[nickserv]
+password=<%= @nickserv_password %>
+
+[rackspace]
+apikey=<%= @rackspace_api_key %>
+
+[weather_underground]
+apikey=<%= @wu_api_key %>
