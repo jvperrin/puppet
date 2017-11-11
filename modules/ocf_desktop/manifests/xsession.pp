@@ -52,16 +52,13 @@ class ocf_desktop::xsession {
   }
 
   # wallpaper symlink
-  if $::lsbdistcodename == 'jessie' {
-    $wallpaper = $staff_only ? {
-      true  => 'background-staff.png',
-      false => 'background.png',
-    }
-  } else {
-    $wallpaper = $staff_only ? {
-      true  => 'background-staff.svg',
-      false => 'background.svg',
-    }
+  $wallpaper = $staff_only ? {
+    true    => 'background-staff.svg',
+    default => 'background.png',
+  }
+  $login_screen = $staff_only ? {
+    true    => "/opt/share/${wallpaper}",
+    default => '/opt/share/xsession/images/login.png',
   }
 
   file { '/opt/share/wallpaper':
@@ -76,7 +73,7 @@ class ocf_desktop::xsession {
     '/etc/lightdm/lightdm.conf':
       source  => 'puppet:///modules/ocf_desktop/xsession/lightdm/lightdm.conf';
     '/etc/lightdm/lightdm-gtk-greeter.conf':
-      source  => 'puppet:///modules/ocf_desktop/xsession/lightdm/lightdm-gtk-greeter.conf';
+      content => template('ocf_desktop/lightdm-gtk-greeter.conf.erb');
     '/etc/X11/default-display-manager':
       content => "/usr/sbin/lightdm\n";
     '/etc/lightdm/session-setup':
