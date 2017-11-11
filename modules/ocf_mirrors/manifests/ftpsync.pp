@@ -26,9 +26,9 @@ define ocf_mirrors::ftpsync(
       ensure  => link,
       target  => "${project_path}/distrib/bin";
 
+    # TODO: Remove this
     "${project_path}/etc/common":
-      ensure  => link,
-      target  => "${project_path}/distrib/etc/common";
+      ensure  => absent;
 
     "${project_path}/etc/ftpsync.conf":
       content => template('ocf_mirrors/ftpsync.conf.erb'),
@@ -43,7 +43,7 @@ define ocf_mirrors::ftpsync(
   }
 
   cron { "ftpsync-${title}":
-    command => "BASEDIR=${project_path} ${project_path}/bin/ftpsync > /dev/null 2>&1",
+    command => "BASEDIR=${project_path} ${project_path}/bin/ftpsync-cron > /dev/null 2>&1",
     user    => 'mirrors',
     minute  => $cron_minute,
     hour    => $cron_hour,
