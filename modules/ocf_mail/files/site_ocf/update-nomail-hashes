@@ -22,3 +22,8 @@ sed 's/$/@ocf.berkeley.edu REDIRECT nomail@int.ocf.berkeley.edu/g' \
 	/etc/postfix/ocf/nomail \
 	> /etc/postfix/ocf/nomail-out-postfix
 /usr/sbin/postmap /etc/postfix/ocf/nomail-out-postfix
+
+# Generate list of domains that should not be sending without authentication
+# from outside the OCF or from outside Google Apps IPs
+/usr/local/sbin/update-unauth-senders > /etc/postfix/ocf/reject-unauth-senders
+/usr/sbin/postmap /etc/postfix/ocf/reject-unauth-senders

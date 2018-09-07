@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+
+print('ocf.berkeley.edu REJECT')
+
+# TODO: The rest of this whole script

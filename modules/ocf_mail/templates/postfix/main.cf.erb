@@ -127,6 +127,9 @@ smtpd_sender_restrictions =
     reject_authenticated_sender_login_mismatch,
     permit_mynetworks,
     permit_sasl_authenticated,
+    # NOTE: This check for sender access must be after mynetworks is permitted,
+    # so that internal mail and mail from Google is still allowed
+    check_sender_access hash:/etc/postfix/ocf/reject-unauth-senders,
     check_policy_service inet:127.0.0.1:12525,
 
 # restrictions on recipient addresses
