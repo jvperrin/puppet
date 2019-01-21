@@ -30,6 +30,7 @@ class ocf_mesos::master::webui(
     manage_repo       => false,
     confd_purge       => true,
     server_purge      => true,
+    http2             => true,
     nginx_cfg_prepend => {
       'load_module' => '"modules/ngx_http_auth_pam_module.so"',
     },

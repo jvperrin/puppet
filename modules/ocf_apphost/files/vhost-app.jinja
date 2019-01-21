@@ -1,8 +1,18 @@
 # {{vhost.comment}}
 server {
-    listen {{vhost.port}};
-    listen [::]:{{vhost.port}};
     server_name "{{vhost.fqdn}}";
+
+    {% if vhost.ssl %}
+        listen {{vhost.port}} ssl http2;
+        listen [::]:{{vhost.port}} ssl http2;
+
+        ssl_certificate {{vhost.ssl.bundle}};
+        ssl_certificate_key {{vhost.ssl.key}};
+        add_header Strict-Transport-Security "max-age=31536000";
+    {% else %}
+        listen {{vhost.port}};
+        listen [::]:{{vhost.port}};
+    {% endif %}
 
     location /.well-known/ {
         alias /var/lib/lets-encrypt/.well-known/;
@@ -26,11 +36,4 @@ server {
     }
 
     access_log /var/log/nginx/vhost_access.log vhost;
-
-    {% if vhost.ssl %}
-        ssl on;
-        ssl_certificate {{vhost.ssl.bundle}};
-        ssl_certificate_key {{vhost.ssl.key}};
-        add_header Strict-Transport-Security "max-age=31536000";
-    {% endif %}
 }

@@ -31,6 +31,7 @@ class ocf_docker {
   nginx::resource::server {
     default:
       listen_port       => 443,
+      http2             => true,
 
       ssl               => true,
       ssl_cert          => "/etc/ssl/private/${::fqdn}.bundle",

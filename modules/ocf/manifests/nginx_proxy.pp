@@ -12,6 +12,8 @@ define ocf::nginx_proxy(
   $ssl_key     = "/etc/ssl/private/${::fqdn}.key",
   $ssl_dhparam = '/etc/ssl/dhparam.pem',
 
+  $http2 = $ssl,
+
   # Accept any other arbitrary options passed in and pass them on to
   # nginx::resource::server
   $nginx_options = {},
@@ -33,6 +35,7 @@ define ocf::nginx_proxy(
         proxy_set_header => concat($base_headers, $proxy_set_header),
 
         listen_port      => 443,
+        http2            => $http2,
         ssl              => true,
         ssl_cert         => $ssl_cert,
         ssl_key          => $ssl_key,
@@ -63,6 +66,7 @@ define ocf::nginx_proxy(
           },
 
           listen_port       => 443,
+          http2             => true,
           ssl               => true,
           ssl_cert          => $ssl_cert,
           ssl_key           => $ssl_key,

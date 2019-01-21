@@ -75,6 +75,12 @@ class ocf_mirrors {
   include apache::mod::headers
   include apache::mod::status
 
+  # Support http2 (rt#5957)
+  apache::mod { 'http2':; }
+  apache::custom_config { 'http2':
+    content => "Protocols h2 http/1.1\n",
+  }
+
   # Restart apache if any cert changes occur
   Class['ocf::ssl::default'] ~> Class['Apache::Service']
 

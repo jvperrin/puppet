@@ -23,6 +23,7 @@ class ocf_ssh::webssh {
     manage_repo  => false,
     confd_purge  => true,
     server_purge => true,
+    http2        => true,
   }
 
   # Restart nginx if any cert changes occur
